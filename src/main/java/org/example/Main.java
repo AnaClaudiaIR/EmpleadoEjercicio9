@@ -11,19 +11,15 @@ public class Main {
                 DBConfig.getUser(),
                 DBConfig.getPassword()
         );  Statement statement = connection.createStatement()) {
-
-            String sql = "SELECT SALARIO, COUNT(*)" +
-                    " FROM EMPLEADO" +
-                    " GROUP BY SALARIO" +
-                    " ORDER BY COUNT(*) DESC";
+            String sql = "SELECT ROUND(AVG(SALARIO),2)" +
+                    " FROM EMPLEADO";
 
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
-               Double salario = resultSet.getDouble("SALARIO");
-               int count = resultSet.getInt("COUNT(*)"); //Número de personas que tienen cada salario
-                System.out.println("Salario: "+salario + " ->> " + count);
+                Double mediaSalario = resultSet.getDouble("ROUND(AVG(SALARIO),2)");
+                System.out.println("Media salario de todos los empleados ->> "+ mediaSalario);
             }
         } catch (SQLException e){
             System.out.println("ERROR --> "+e.getMessage());
